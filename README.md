@@ -34,7 +34,7 @@ callback.
 
 ### Approach
 
-Use `setInterval` that ticks on every specified delayed time. Each callback invocation we display concatted string inside the `textArea`
+Use `setInterval` that ticks on every specified delayed time. Each callback invocation we display concatenated string inside the `textArea`
 
 
 
