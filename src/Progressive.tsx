@@ -6,6 +6,10 @@ import { isNumericString } from './utils';
 
 let intervalID: null | NodeJS.Timeout = null;
 
+// Question:
+//  Why are we having an `async` here? We are returning
+//  void here and we are invoking callback instead of resolve
+//  a value using promise.
 const runProgressive = async (
   inputString: string,
   miniSec: number, // (milli, typo?)
@@ -37,8 +41,7 @@ export default function Progressive() {
   }, []);
 
   /**
-   * What if string is non-numeric? If string is non-numeric, we guard against it.
-   *
+   * Guard against non-numeric string.
    */
   const handleChangeTime = useCallback((e: any) => {
     const newTime = e.target.value;
@@ -67,10 +70,10 @@ export default function Progressive() {
   }, [inputString, miniSec, isDisplaying]);
 
   /**
-   * Clear all states. Don't forget to clear the time interval if exists any.
+   * Clear all controlled states. Don't forget to clear the time interval if exists any.
    *
    * return when `isDiplaying` is true? We should clear the states while `isDiplaying` is true.
-   * is there something logically wrong here?
+   * is there something semantically wrong here?
    */
   const handleClear = useCallback(() => {
     if (isDisplaying) { // We should clear the states when `isDisplaying` is true.
