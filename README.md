@@ -8,7 +8,7 @@ We use `setInterval` to tick every 1000 milliseconds (1 second). we increment th
 Invoke callback only if user does not click on it within specified time interval (1sec, 2sec etc...)
 
 
-### useThrottole
+### useThrottle
 
 Only allow 1 callback invocation within specified throttle time, the subsequent calls within throttle time will be ignored.
 ## Exam 2
