@@ -25,7 +25,7 @@ const useDebounce = (callback: () => void, time: number) => {
 
 /**
  * Invoke callback immediately, but sebsequent callback within specified time interval
- * will not do anything.
+ * will be dropped.
  */
 const useThrottle = (callback: () => void, time: number) => {
   const now = Date.now();
