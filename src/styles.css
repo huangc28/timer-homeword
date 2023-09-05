@@ -1,0 +1,57 @@
+h2 {
+  width: 100%;
+  text-align: left;
+}
+
+.App {
+  font-family: sans-serif;
+  /* text-align: center; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.count {
+  font-size: 3rem;
+}
+
+.conditional-count {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.input-area {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-bottom: 4px;
+}
+
+.input-area > *:not(:first-child) {
+  margin-top: 6px;
+}
+
+.start-btn {
+  width: 60px;
+}
+
+.display-area {
+  display: flex;
+  justify-content: center;
+  min-width: 60vw;
+  min-height: 100px;
+  padding: 6px;
+  border: 1px solid #333;
+  border-radius: 10px;
+}
+
+.btn-group {
+  display: flex;
+  justify-content: flex-end;
+  margin: 6px 0;
+}
+
+.btn-group > *:not(:first-child) {
+  margin-left: 6px;
+}
