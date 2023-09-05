@@ -8,10 +8,10 @@ let intervalID: null | NodeJS.Timeout = null;
 
 const runProgressive = async (
   inputString: string,
-  miniSec: number, // (milli second, typo?)
+  miniSec: number, // (milli, typo?)
   callback: (currentString: string) => void
 ) => {
-  // We need an `setInterval` to invoke callback on every tick of specified `miniSec`.
+  // We need a `setInterval` to invoke callback on every tick of specified `miniSec`.
   // What if intervalID already exists? We clear the previous interval and start out
   // a new one.
   if (intervalID) {
@@ -19,7 +19,10 @@ const runProgressive = async (
   }
 
   // Invoke callback on every tick of `miniSec`.
-  intervalID = setInterval(() => callback(inputString), miniSec);
+  intervalID = setInterval(() => {
+    callback(inputString);
+    intervalID = null;
+  }, miniSec);
 };
 
 export default function Progressive() {
@@ -44,10 +47,9 @@ export default function Progressive() {
   }, []);
 
   /**
-   *
+   * Problem: `isDisplaying` is not changing?
    */
   const handleStart = useCallback(() => {
-    console.log('debug handleStart', isDisplaying);
     if (!inputString || !miniSec || isDisplaying) {
       return;
     }
@@ -66,12 +68,12 @@ export default function Progressive() {
 
   /**
    * Clear all states. Don't forget to clear the time interval if exists any.
+   *
+   * return when `isDiplaying` is true? We should clear the states while `isDiplaying` is true.
+   * is there something logically wrong here?
    */
   const handleClear = useCallback(() => {
-    console.log('debug handleClear', isDisplaying);
-
-    // The reason to return here while `isDisplaying`
-    if (isDisplaying) {
+    if (isDisplaying) { // We should clear the states when `isDisplaying` is true.
       return;
     }
 
@@ -88,8 +90,6 @@ export default function Progressive() {
   useEffect(() => {
     // If user hasn't changed input string from the display string while pressing start,
     // the progressive display will start over.
-    // 要是 inputString 為空 或是 displayString 為空代表 user clear 了
-    //
     if (inputString && displayString && inputString === displayString) {
       setIsDisplaying(false);
     }

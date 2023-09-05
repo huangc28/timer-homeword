@@ -4,18 +4,55 @@
 
 import { useState, useEffect } from "react";
 
+let debounceID: null | NodeJS.Timeout = null;
+let throttleLastCall: number = 0;
+
+/**
+ * Callback is only triggered if you don't click again within specified time interval.
+ */
 const useDebounce = (callback: () => void, time: number) => {
-  // write down your code
+  return (...args: any) => {
+    if (debounceID) {
+      clearTimeout(debounceID)
+    }
+
+    debounceID = setTimeout(() => {
+      callback();
+      debounceID = null
+    }, time);
+  }
 };
 
+/**
+ * Invoke callback immediately, but sebsequent callback within specified time interval
+ * will not do anything.
+ */
 const useThrottle = (callback: () => void, time: number) => {
-  // write down your code
+  const now = Date.now();
+
+  return (...args: any) => {
+    if (now - throttleLastCall > time) {
+      callback();
+      throttleLastCall = now;
+    }
+  }
 };
 
 export default function Timer() {
   const [count, setCount] = useState<number>(0);
   const [debounceCount, setDebounceCount] = useState<number>(0);
   const [throttleCount, setThrottleCount] = useState<number>(0);
+
+  const incrementByDebounce = useDebounce(() => {
+    setCount(prev => prev + 1);
+    setDebounceCount(prev => prev + 1);
+  }, 1500);
+
+  const incrementByThrottle = useThrottle(() => {
+    setCount(prev => prev + 1);
+    setThrottleCount(prev => prev + 1);
+  }, 1500);
+
 
   useEffect(() => {
     const tick = () => setCount(prevCount => prevCount + 1);
@@ -32,11 +69,11 @@ export default function Timer() {
       <div className="count">{count}</div>
       <div className="conditional-count">
         <div>
-          <button>start debounce</button>
+          <button onClick={incrementByDebounce}>start debounce</button>
           <div>debounce count: {debounceCount}</div>
         </div>
         <div>
-          <button>start throttle</button>
+          <button onClick={incrementByThrottle}>start throttle</button>
           <div>throttle count: {throttleCount}</div>
         </div>
       </div>
