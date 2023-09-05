@@ -25,7 +25,6 @@ const runProgressive = async (
   // Invoke callback on every tick of `miniSec`.
   intervalID = setInterval(() => {
     callback(inputString);
-    intervalID = null;
   }, miniSec);
 };
 
@@ -76,6 +75,7 @@ export default function Progressive() {
    * is there something semantically wrong here?
    */
   const handleClear = useCallback(() => {
+    console.log('debug handleClear', isDisplaying)
     if (isDisplaying) { // We should clear the states when `isDisplaying` is true.
       return;
     }
